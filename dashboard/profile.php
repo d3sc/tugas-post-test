@@ -5,8 +5,14 @@ require "../db.php";
 include "../helpers/path.php";
 include "../middleware/isGuest.php";
 
+$error = "";
+$success = "";
+
+if (isset($_GET['success'])) {
+    $success = htmlspecialchars($_GET['success'], ENT_QUOTES, 'UTF-8');
+}
+
 $userId = $_SESSION['user_id'];
-$data = "";
 if (isset($_SESSION['is_login']) && $userId) {
     $sql = "SELECT * FROM users INNER JOIN profile ON users.id = profile.userId WHERE users.id = $userId";
     $query = mysqli_query($conn, $sql);
@@ -18,6 +24,73 @@ if (isset($_POST["logout"])) {
     session_destroy();
     header("location: $basePath/auth/login.php");
 }
+
+if (isset($_POST['submit'])) {
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $firstName = $_POST["firstName"];
+    $middleName = $_POST["middleName"];
+    $lastName = $_POST["lastName"];
+    $dateOfBirth = $_POST["dateOfBirth"];
+    $nationality = $_POST["nationality"];
+    $countryOfResidence = $_POST["countryOfResidence"];
+    $address1 = $_POST["address1"];
+    $address2 = $_POST["address2"];
+    $city = $_POST["city"];
+    $state = $_POST["state"];
+    $zipCode = $_POST["zipCode"];
+    $country = $_POST["country"];
+    $employmentStatus = $_POST["employmentStatus"];
+    $jobTitle = $_POST["jobTitle"];
+    $phoneWork = $_POST["phoneWork"];
+    $phoneMobile = $_POST["phoneMobile"];
+    $phoneHome = $_POST["phoneHome"];
+    $altEmail = $_POST["altEmail"];
+    $accountTitle = $_POST["accountTitle"];
+
+    $checkbox = $_POST["accountType"] ?? "";
+    if ($checkbox) {
+        $accountType = implode(", ", $checkbox);
+    }
+
+
+    if (empty($username) || empty($email) || empty($firstName) || empty($lastName) || empty($nationality) || empty($countryOfResidence) || empty($address1) || empty($zipCode) || empty($accountTitle) || empty($country)) {
+        $error = "all input required must be fill!";
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Format email is invalid!";
+    }
+
+    if (strlen($password) < 8 && $password) {
+        $error = "Password is must have at least 8 character!";
+    }
+
+    // Hash password
+    if (!empty($password)) {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        $result = mysqli_query($conn, "SELECT password FROM users WHERE id='$userId'");
+        $data = mysqli_fetch_assoc($result);
+        $password = $data['password'];
+    }
+
+    if (empty($error)) {
+        $sql = "UPDATE users SET username='$username', email='$email', password='$hashedPassword' WHERE id='$userId'";
+        $result = mysqli_query($conn, $sql);
+
+        $sql1 = "UPDATE profile SET first_name='$firstName', middle_name='$middleName', last_name='$lastName', date_of_birth='$dateOfBirth', nationality='$nationality', country_of_residence='$countryOfResidence', address1='$address1', address2='$address2', city='$city', state='$state', zip_code='$zipCode', country='$country', employment_status='$employmentStatus', job_title='$jobTitle', phone_work='$phoneWork', phone_mobile='$phoneMobile', phone_home='$phoneHome', alt_email='$altEmail', account_title='$accountTitle', account_type='$accountType' WHERE userId='$userId'";
+        $result1 = mysqli_query($conn, $sql1);
+        if ($result1) {
+            header("Location: profile.php?success=Data has been successfuly updated!");
+            // $success = "Data has been successfuly updated!";
+        } else {
+            $error = "Error : " . mysqli_error($conn);
+        }
+    }
+}
+
 ?>
 
 <!doctype html>
@@ -68,11 +141,11 @@ if (isset($_POST["logout"])) {
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2"><?php echo $data['username'] ?></h1>
+                    <h1 class="h2">Profile</h1>
                 </div>
 
                 <div class="container dashboard-profile">
-                    <form class="container my-4" method="post" action="">
+                    <form class="container my-4" method="post">
                         <?php
                         if ($error) {
                         ?>
@@ -251,8 +324,9 @@ if (isset($_POST["logout"])) {
                                 <input type="email" class="form-control" id="input-email" name="email" value="<?php echo htmlspecialchars($data['email']); ?>" required />
                             </div>
                             <div class="form-group col-5 mt-3">
-                                <label for="input-password">Password *</label>
-                                <input type="password" class="form-control" id="input-password" name="password" required />
+                                <label for="input-password">Password</label>
+                                <input type="password" class="form-control" id="input-password" name="password" />
+                                <span class="fw-bold">if you dont want to change the password dont fill it *</span>
                             </div>
                         </div>
 

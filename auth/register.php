@@ -58,19 +58,20 @@ if (isset($_POST['submit'])) {
     // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO users(username, email, password) VALUES ('$username', '$email', '$hashedPassword')";
-    $result = mysqli_query($conn, $sql);
+    if (empty($error)) {
+        $sql = "INSERT INTO users(username, email, password) VALUES ('$username', '$email', '$hashedPassword')";
+        $result = mysqli_query($conn, $sql);
 
-    $userId = mysqli_insert_id($conn);
-    $sql1 = "INSERT INTO profile (userId, first_name, middle_name, last_name, date_of_birth, nationality, country_of_residence, address1, address2, city, state, zip_code, country, employment_status, job_title, phone_work, phone_mobile, phone_home, alt_email, account_title, account_type)
+        $userId = mysqli_insert_id($conn);
+        $sql1 = "INSERT INTO profile (userId, first_name, middle_name, last_name, date_of_birth, nationality, country_of_residence, address1, address2, city, state, zip_code, country, employment_status, job_title, phone_work, phone_mobile, phone_home, alt_email, account_title, account_type)
      VALUES ($userId, '$firstName', '$middleName', '$lastName', '$dateOfBirth', '$nationality', '$countryOfResidence', '$address1', '$address2', '$city', '$state', '$zipCode', '$country', '$employmentStatus', '$jobTitle', '$phoneWork', '$phoneMobile', '$phoneHome', '$altEmail', '$accountTitle', '$accountType')";
-    $result1 = mysqli_query($conn, $sql1);
-    if ($result1) {
-        // tidak muncul
-        $success = "Data has been successfuly stored!";
-        header("refresh:2;url=login.php");
-    } else {
-        $error = "Error : " . mysqli_error($conn);
+        $result1 = mysqli_query($conn, $sql1);
+        if ($result1) {
+            $success = "Data has been successfuly stored!";
+            header("refresh:2;url=login.php");
+        } else {
+            $error = "Error : " . mysqli_error($conn);
+        }
     }
 }
 
