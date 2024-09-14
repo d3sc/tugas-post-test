@@ -84,7 +84,6 @@ if (isset($_POST['submit'])) {
         $result1 = mysqli_query($conn, $sql1);
         if ($result1) {
             header("Location: profile.php?success=Data has been successfuly updated!");
-            // $success = "Data has been successfuly updated!";
         } else {
             $error = "Error : " . mysqli_error($conn);
         }
