@@ -5,16 +5,26 @@ require "../db.php";
 include "../helpers/path.php";
 include "../middleware/isGuest.php";
 
-$username = "";
+if (isset($_GET['success'])) {
+  $success = htmlspecialchars($_GET['success'], ENT_QUOTES, 'UTF-8');
+}
 
 if (isset($_SESSION['is_login'])) {
-  $username = $_SESSION['username'];
+  $userId = $_SESSION['user_id'];
+  $sql = "SELECT * FROM users INNER JOIN portofolio ON users.id = portofolio.userId WHERE users.id = $userId";
+  $query = mysqli_query($conn, $sql);
+  $data = mysqli_fetch_all($query);
 }
 
 if (isset($_POST["logout"])) {
   session_unset();
   session_destroy();
   header("location: $basePath/auth/login.php");
+}
+
+if (isset($_POST["delete"])) {
+  var_dump("masuk");
+  exit;
 }
 ?>
 
@@ -32,7 +42,13 @@ if (isset($_POST["logout"])) {
   <?php include "../layout/link.html" ?>
 
   <link rel="stylesheet" href="./css/dashboard.css">
-  <script src="./dashboard.js"></script>
+
+  <!-- dataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.bootstrap5.css">
+  <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
+  <script defer src="https://cdn.datatables.net/2.1.6/js/dataTables.bootstrap5.js"></script>
 
   <style>
     .bd-placeholder-img {
@@ -64,19 +80,90 @@ if (isset($_POST["logout"])) {
 
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
+          <h1 class="h2">Portofolio</h1>
         </div>
-
-        <div class="container">
-          <h3>Welcome Back, <?php echo $username ?></h3>
+        <?php
+        if ($success) {
+        ?>
+          <div class="alert alert-success" role="alert">
+            <?php echo $success ?>
+          </div>
+        <?php
+        }
+        ?>
+        <div class="container mb-5">
+          <div class="mb-2">
+            <a href="<?php echo $basePath . "/dashboard/create.php" ?>" class="btn btn-primary">Add New Invest</a>
+          </div>
+          <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $index = 1;
+              foreach ($data as $row): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($index); ?></td>
+                  <td><?php echo htmlspecialchars($row[1]); ?></td>
+                  <td><?php echo htmlspecialchars($row[6]); ?></td>
+                  <td><?php echo htmlspecialchars($row[7]); ?></td>
+                  <td><?php echo htmlspecialchars($row[8]); ?></td>
+                  <td>
+                    <!-- Contoh action, bisa disesuaikan -->
+                    <a href="edit.php?id=<?php echo $row[4]; ?>" class="btn btn-warning">Edit</a>
+                    <a href="delete.php?id=<?php echo $row[4]; ?>" class="delete btn btn-danger">Delete</a>
+                  </td>
+                </tr>
+              <?php $index++;
+              endforeach; ?>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
     </div>
     </main>
   </div>
   </div>
 
-  <?php include "../layout/link2.html" ?>
-  <script src="./js/dashboard.js"></script>
 </body>
+<script src="./js/dashboard.js"></script>
+<script>
+  $(".delete").click((event) => {
+    event.preventDefault();
+    var url = $(event.target).attr('href')
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = url;
+      }
+    });
+  })
+</script>
+<?php include "../layout/link2.html" ?>
 
 </html>

@@ -54,7 +54,6 @@ if (isset($_POST['submit'])) {
         $accountType = implode(", ", $checkbox);
     }
 
-
     if (empty($username) || empty($email) || empty($firstName) || empty($lastName) || empty($nationality) || empty($countryOfResidence) || empty($address1) || empty($zipCode) || empty($accountTitle) || empty($country)) {
         $error = "all input required must be fill!";
     }
@@ -77,7 +76,7 @@ if (isset($_POST['submit'])) {
     }
 
     if (empty($error)) {
-        $sql = "UPDATE users SET username='$username', email='$email', password='$hashedPassword' WHERE id='$userId'";
+        $sql = "UPDATE users SET username='$username', email='$email', password='$password' WHERE id='$userId'";
         $result = mysqli_query($conn, $sql);
 
         $sql1 = "UPDATE profile SET first_name='$firstName', middle_name='$middleName', last_name='$lastName', date_of_birth='$dateOfBirth', nationality='$nationality', country_of_residence='$countryOfResidence', address1='$address1', address2='$address2', city='$city', state='$state', zip_code='$zipCode', country='$country', employment_status='$employmentStatus', job_title='$jobTitle', phone_work='$phoneWork', phone_mobile='$phoneMobile', phone_home='$phoneHome', alt_email='$altEmail', account_title='$accountTitle', account_type='$accountType' WHERE userId='$userId'";
@@ -107,7 +106,6 @@ if (isset($_POST['submit'])) {
 
     <link rel="stylesheet" href="./css/dashboard.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="./dashboard.js"></script>
     <script src="../data/country.js"></script>
 
     <style>
@@ -340,7 +338,6 @@ if (isset($_POST['submit'])) {
     </div>
 
     <?php include "../layout/link2.html" ?>
-    <script src="./js/dashboard.js"></script>
     <script>
         $(document).ready(function() {
             const countrySelect = $("#input-country");
