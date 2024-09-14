@@ -1,6 +1,9 @@
 <?php
 
-$currentPath = explode("/", $_SERVER['REQUEST_URI'])[3]
+$currentPath = explode("/", $_SERVER['REQUEST_URI'])[3];
+if (strpos($currentPath, 'profile.php') !== false) {
+    $profilePath = 'profile.php';
+}
 
 ?>
 
@@ -14,7 +17,7 @@ $currentPath = explode("/", $_SERVER['REQUEST_URI'])[3]
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentPath == "profile.php" ? "active" : ""; ?>" href="profile.php">
+                <a class="nav-link <?php echo $profilePath == "profile.php" ? "active" : ""; ?>" href="profile.php">
                     <span data-feather="user"></span>
                     Profile
                 </a>
