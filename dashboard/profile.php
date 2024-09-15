@@ -19,12 +19,6 @@ if (isset($_SESSION['is_login']) && $userId) {
     $data = mysqli_fetch_assoc($query);
 }
 
-if (isset($_POST["logout"])) {
-    session_unset();
-    session_destroy();
-    header("location: $basePath/auth/login.php");
-}
-
 if (isset($_POST['submit'])) {
     $username = $_POST["username"];
     $email = $_POST["email"];
@@ -138,7 +132,7 @@ if (isset($_POST['submit'])) {
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Profile</h1>
+                    <h1 class="h2">Edit Profile</h1>
                 </div>
 
                 <div class="container dashboard-profile">
@@ -337,16 +331,15 @@ if (isset($_POST['submit'])) {
     </div>
     </div>
 
-    <?php include "../layout/link2.html" ?>
-    <script>
-        $(document).ready(function() {
-            const countrySelect = $("#input-country");
-
-            country.forEach((item) => {
-                countrySelect.append(new Option(item.name, item.name))
-            })
-        })
-    </script>
 </body>
+<script>
+    $(document).ready(function() {
+        const countrySelect = $("#input-country");
 
-</html>
+        country.forEach((item) => {
+            countrySelect.append(new Option(item.name, item.name))
+        })
+    })
+</script>
+
+<?php include "./layouts/footer.php" ?>

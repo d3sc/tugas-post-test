@@ -20,9 +20,13 @@ if (isset($_POST["submit"])) {
     if (empty($type_investment) || empty($investment_amount) || empty($investment_date)) {
         $error = "All input fields must be filled!";
     }
-    $investment_amount = "$" . number_format($investment_amount, 2, '.', ',');
+
+    if (!is_numeric($investment_amount)) {
+        $error = "Investment amount must be a valid number!";
+    }
 
     if (empty($error)) {
+        $investment_amount = "$" . number_format($investment_amount, 2, '.', ',');
         $sql = "INSERT INTO portofolio (userId, type_of_investment, investment_amount, investment_date) VALUES ($userId, '$type_investment', '$investment_amount', '$investment_date')";
         $result = mysqli_query($conn, $sql);
 
@@ -82,7 +86,7 @@ if (isset($_POST["submit"])) {
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Create</h1>
+                    <h1 class="h2">Create Investment</h1>
                 </div>
 
                 <?php
@@ -129,7 +133,4 @@ if (isset($_POST["submit"])) {
     </div>
 
 </body>
-<?php include "../layout/link2.html" ?>
-<script src="./js/dashboard.js"></script>
-
-</html>
+<?php include "./layouts/footer.php" ?>

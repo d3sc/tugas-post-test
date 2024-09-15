@@ -25,9 +25,9 @@ if (strpos($currentPath, 'profile.php') !== false) {
         </ul>
     </div>
     <div class="logout">
-        <form method="post" class="nav-link d-flex justify-content-start align-items-center">
+        <form method="post" action="action.php?action=logout" class="logout-form nav-link d-flex justify-content-start align-items-center">
             <span data-feather="log-out" class="text-white"></span>
-            <button class="nav-link px-3 text-white" name="logout">logout</button>
+            <button type="submit" class="nav-link px-3 text-white" name="logout">logout</button>
         </form>
     </div>
 </nav>

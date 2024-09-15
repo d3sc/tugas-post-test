@@ -16,12 +16,6 @@ if (isset($_SESSION['is_login'])) {
   $data = mysqli_fetch_all($query);
 }
 
-if (isset($_POST["logout"])) {
-  session_unset();
-  session_destroy();
-  header("location: $basePath/auth/login.php");
-}
-
 if (isset($_POST["delete"])) {
   var_dump("masuk");
   exit;
@@ -116,10 +110,12 @@ if (isset($_POST["delete"])) {
                   <td><?php echo htmlspecialchars($row[6]); ?></td>
                   <td><?php echo htmlspecialchars($row[7]); ?></td>
                   <td><?php echo htmlspecialchars($row[8]); ?></td>
-                  <td>
+                  <td class="d-flex gap-3">
                     <!-- Contoh action, bisa disesuaikan -->
                     <a href="edit.php?id=<?php echo $row[4]; ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete.php?id=<?php echo $row[4]; ?>" class="delete btn btn-danger">Delete</a>
+                    <form method="post" action="action.php?action=delete&id=<?php echo $row[4] ?>" class="delete-form">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                   </td>
                 </tr>
               <?php $index++;
@@ -127,12 +123,12 @@ if (isset($_POST["delete"])) {
             </tbody>
             <tfoot>
               <tr>
+                <th>No</th>
                 <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Action</th>
               </tr>
             </tfoot>
           </table>
@@ -143,27 +139,35 @@ if (isset($_POST["delete"])) {
   </div>
 
 </body>
-<script src="./js/dashboard.js"></script>
 <script>
-  $(".delete").click((event) => {
-    event.preventDefault();
-    var url = $(event.target).attr('href')
+  $(document).ready(() => {
+    $(".delete-form").submit((event) => {
+      event.preventDefault();
 
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = url;
-      }
+      const form = $(event.currentTarget);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            success: (response) => {
+              let result = JSON.parse(response)
+
+              window.location.href = result.url;
+            },
+          })
+        }
+      });
     });
-  })
+  });
 </script>
-<?php include "../layout/link2.html" ?>
 
-</html>
+<?php include "./layouts/footer.php" ?>
