@@ -55,6 +55,14 @@ if (isset($_POST['submit'])) {
         $error = "Password is must have at least 8 character!";
     }
 
+    $sql = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
+    $query = mysqli_query($conn, $sql);
+    $data = mysqli_fetch_assoc($query);
+
+    if (isset($data)) {
+        $error = "Username or Email is Duplicate!";
+    }
+
     // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -87,7 +95,6 @@ if (isset($_POST['submit'])) {
     <!-- Latest compiled and minified CSS -->
     <?php include "../layout/link.html" ?>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../data/country.js"></script>
 </head>
 
 <body>
@@ -147,9 +154,7 @@ if (isset($_POST['submit'])) {
             <span>Account Title</span>
             <select class="form-select" name="accountTitle" aria-label="Default select example">
                 <option selected value="Mr">Mr</option>
-                <option value="One">One</option>
-                <option value="Two">Two</option>
-                <option value="Three">Three</option>
+                <option value="Ms">Ms</option>
             </select>
         </div>
 
@@ -284,15 +289,15 @@ if (isset($_POST['submit'])) {
 
 </body>
 <!-- Latest compiled JavaScript -->
-<?php include "../layout/link2.html" ?>
+<script src="../data/country.js"></script>
 <script>
     $(document).ready(function() {
         const countrySelect = $("#input-country");
-
         country.forEach((item) => {
             countrySelect.append(new Option(item.name, item.name))
         })
     })
 </script>
+<?php include "../layout/link2.html" ?>
 
 </html>

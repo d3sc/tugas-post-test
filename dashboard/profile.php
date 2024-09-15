@@ -179,9 +179,7 @@ if (isset($_POST['submit'])) {
                             <span>Account Title</span>
                             <select class="form-select" name="accountTitle" aria-label="Default select example">
                                 <option value="Mr" <?php echo $data['account_title'] == 'Mr' ? 'selected' : ''; ?>>Mr</option>
-                                <option value="One" <?php echo $data['account_title'] == 'One' ? 'selected' : ''; ?>>One</option>
-                                <option value="Two" <?php echo $data['account_title'] == 'Two' ? 'selected' : ''; ?>>Two</option>
-                                <option value="Three" <?php echo $data['account_title'] == 'Three' ? 'selected' : ''; ?>>Three</option>
+                                <option value="Ms" <?php echo $data['account_title'] == 'Ms' ? 'selected' : ''; ?>>Ms</option>
                             </select>
                         </div>
 

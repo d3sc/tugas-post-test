@@ -2,10 +2,10 @@
 define("servername", "localhost");
 define("username", "root");
 define("password", "");
-define("database", "post_test");
+define("database", "investment");
 
 $conn = mysqli_connect(servername, username, password, database);
 
 if (!$conn) {
-    die("koneksi tidak berhasil = " . mysqli_connect_error());
+    die("Connection Lost = " . mysqli_connect_error());
 }
