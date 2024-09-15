@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Auth - Register</title>
     <!-- Latest compiled and minified CSS -->
     <?php include "../layout/link.html" ?>
     <link rel="stylesheet" href="../css/style.css">

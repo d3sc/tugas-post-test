@@ -85,38 +85,29 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<!doctype html>
-<html lang="en">
+<?php include "./layouts/heading.php" ?>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+<?php include "../layout/link.html" ?>
 
-    <?php include "../layout/link.html" ?>
+<link rel="stylesheet" href="./css/dashboard.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../data/country.js"></script>
 
-    <link rel="stylesheet" href="./css/dashboard.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../data/country.js"></script>
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
 
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
         }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
