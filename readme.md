@@ -2,6 +2,10 @@
 
 ## Overview
 
+![Dashboard](./doc/dashboard.jpeg)
+![profile](./doc/profile.jpeg)
+![login](./doc/login.png)
+
 The **Investment Portfolio** project is a web application that allows users to manage their investment portfolios. The application includes features for user authentication, authorization, profile editing, and portfolio management. Built using PHP, jQuery, and MySQL, this project provides a secure and interactive interface for users to handle their investments.
 
 ## Features
