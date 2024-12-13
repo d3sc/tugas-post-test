@@ -37,7 +37,7 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth - Login</title>
-    <?php include "../layout/link.html" ?>
+    <?php include "../layout/link.php" ?>
     <link rel="stylesheet" href="../css/style.css">
 
 </head>
@@ -86,6 +86,6 @@ if (isset($_POST["submit"])) {
         </div>
     </div>
 </body>
-<?php include "../layout/link2.html" ?>
+<?php include "../layout/link2.php" ?>
 
 </html>

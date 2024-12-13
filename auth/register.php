@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth - Register</title>
     <!-- Latest compiled and minified CSS -->
-    <?php include "../layout/link.html" ?>
+    <?php include "../layout/link.php" ?>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -298,6 +298,6 @@ if (isset($_POST['submit'])) {
         })
     })
 </script>
-<?php include "../layout/link2.html" ?>
+<?php include "../layout/link2.php" ?>
 
 </html>

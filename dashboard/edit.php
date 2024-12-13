@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
 
 <?php include "./layouts/heading.php" ?>
 
-<?php include "../layout/link.html" ?>
+<?php include "../layout/link.php" ?>
 
 <link rel="stylesheet" href="./css/dashboard.css">
 <script src="./dashboard.js"></script>

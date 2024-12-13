@@ -24,7 +24,7 @@ if (isset($_POST["delete"])) {
 
 <?php include "./layouts/heading.php" ?>
 
-<?php include "../layout/link.html" ?>
+<?php include "../layout/link.php" ?>
 
 <link rel="stylesheet" href="./css/dashboard.css">
 

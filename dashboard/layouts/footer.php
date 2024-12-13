@@ -1,5 +1,5 @@
 <?php
-include "../layout/link2.html";
+include "../layout/link2.php";
 ?>
 
 
